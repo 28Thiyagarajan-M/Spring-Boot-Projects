@@ -1,0 +1,66 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: API-GATEWAY
+  config:
+    import: configserver:http://localhost:9791
+
+  cloud:
+    gateway:
+      routes:
+        - id: ORDER-SERVICE
+#          uri: lb://ORDER-SERVICE
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE
+                fallbackuri: forward:/orderServiceFallBack
+
+        - id: PAYMENT-SERVICE
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PAYMENT-SERVICE
+                fallbackuri: forward:/paymentServiceFallBack
+
+        - id: PRODUCT-SERVICE
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PRODUCT-SERVICE
+                fallbackuri: forward:/productServiceFallBack
+
+logging:
+  io:
+    zipkin:
+      zipkin: DEBUG
+  pattern:
+    level: "%5p [${spring.zipkin.service.name:${spring.application.name:}},%X{traceId:-},%X{spanId:-}]"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0
+
+okta:
+  oauth2:
+    issuer: https://dev-18967452.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oadi7bd7t3OJkfrN5d7
+    client-secret: r9dDLxcjDZqBxSnQnylKi9MzkKxlbWlIfcH4CY5_QSLXi25XsgBqWBvMEUGuF6IS
+    scopes: openid, profile, email, offline_access

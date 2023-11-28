@@ -34,9 +34,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getProductById(long productId) {
-        log.info("Get the product : {}",productId);
+        log.info("Get the product : {}", productId);
         Product product = productRepository.findById(productId)
-                .orElseThrow(()-> new ProductServiceCustomException("Product with given id is not found.","Product_Not_Found"));
+                .orElseThrow(() -> new ProductServiceCustomException("Product with given id is not found.", "Product_Not_Found"));
         ProductResponse productResponse = new ProductResponse();
         BeanUtils.copyProperties(product, productResponse);
 
@@ -47,18 +47,27 @@ public class ProductServiceImpl implements ProductService {
     public void reduceQuantity(long productId, long quantity) {
         log.info("Reduce quantity {} for Id {}", quantity, productId);
 
-        Product product = productRepository.findById(productId).orElseThrow(()->
-                new ProductServiceCustomException("Product not found for the given id","PRODUCT_NOT_FOUND")
+        Product product = productRepository.findById(productId).orElseThrow(() ->
+                new ProductServiceCustomException("Product not found for the given id", "PRODUCT_NOT_FOUND")
         );
 
-        if(product.getQuantity() < quantity){
+        if (product.getQuantity() < quantity) {
             throw new ProductServiceCustomException("Product doesn't have sufficient quantity",
                     "INSUFFICIENT_QUANTITY");
         }
 
-        product.setQuantity(product.getQuantity()-quantity);
+        product.setQuantity(product.getQuantity() - quantity);
         productRepository.save(product);
         log.info("Product quantity reduced.");
 
+    }
+
+    @Override
+    public void deleteProduct(long productId) {
+        if (productRepository.existsById(productId)) {
+            productRepository.deleteById(productId);
+        }else {
+            throw new ProductServiceCustomException("product not found with the productID : "+productId,"PRODUCT_NOT_FOUND");
+        }
     }
 }

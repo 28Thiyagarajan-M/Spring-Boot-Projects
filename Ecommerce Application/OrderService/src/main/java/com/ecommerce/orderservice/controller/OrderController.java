@@ -2,6 +2,7 @@ package com.ecommerce.orderservice.controller;
 
 
 import com.ecommerce.orderservice.model.OrderRequest;
+import com.ecommerce.orderservice.model.OrderResponse;
 import com.ecommerce.orderservice.service.OrderService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,25 @@ public class OrderController {
 
 
 
+
     @PostMapping("/placeOrder")
     public ResponseEntity<Long> placeOrder(@RequestBody OrderRequest orderRequest){
         long orderId = orderService.placeOrder(orderRequest);
         log.info("Order Id : {}", orderId);
         return new ResponseEntity<>(orderId, HttpStatus.OK);
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable long orderId){
+        OrderResponse orderResponse = orderService.getOrderDetails(orderId);
+
+        return new ResponseEntity<>(orderResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteOrderById(@PathVariable("id") long orderId ){
+        orderService.deleteOrderById(orderId);
+        return new ResponseEntity<>("Order Deleted Successfully with the Id :"+orderId,HttpStatus.OK);
     }
 
 }
