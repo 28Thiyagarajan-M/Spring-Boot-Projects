@@ -124,9 +124,8 @@ public class OrderServiceImpl implements OrderService {
         OrderResponse orderResponse = OrderResponse.builder()
                 .amount(order.getAmount())
                 .orderDate(order.getOrderDate())
-                .OrderStatus(order.getOrderStatus())
+                .orderStatus(order.getOrderStatus())
                 .orderId(order.getId())
-                .OrderStatus(order.getOrderStatus())
                 .productDetails(productDetails)
                 .paymentDetails(paymentDetails)
                 .build();

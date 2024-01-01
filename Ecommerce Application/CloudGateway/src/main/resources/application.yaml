@@ -41,12 +41,24 @@ spring:
                 name: PRODUCT-SERVICE
                 fallbackuri: forward:/productServiceFallBack
 
+  security:
+    oauth2:
+      client:
+        registration:
+          okta:
+            client-id: 0oadtts9p4qtyJjEY5d7
+            client-secret: 9AVf2Nw2Y6QDBk-CNe_w61aW1G4UAFLz4_Dieu-QD9qbsU2cut9JfAPyOrMcaoz-
+
 logging:
   io:
     zipkin:
       zipkin: DEBUG
   pattern:
     level: "%5p [${spring.zipkin.service.name:${spring.application.name:}},%X{traceId:-},%X{spanId:-}]"
+  level:
+    org:
+      springframework:
+        security: DEBUG
 
 management:
   endpoints:
@@ -57,10 +69,12 @@ management:
     sampling:
       probability: 1.0
 
+
+
+
 okta:
   oauth2:
     issuer: https://dev-18967452.okta.com/oauth2/default
     audience: api://default
-    client-id: 0oadi7bd7t3OJkfrN5d7
-    client-secret: r9dDLxcjDZqBxSnQnylKi9MzkKxlbWlIfcH4CY5_QSLXi25XsgBqWBvMEUGuF6IS
-    scopes: openid, profile, email, offline_access
+    scopes: openid, email, profile, offline_access
+

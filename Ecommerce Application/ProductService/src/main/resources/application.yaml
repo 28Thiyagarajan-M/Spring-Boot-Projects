@@ -15,6 +15,12 @@ spring:
   config:
     import: configserver:http://localhost:9791
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-18967452.okta.com/oauth2/default
+
 
 logging:
   io:
