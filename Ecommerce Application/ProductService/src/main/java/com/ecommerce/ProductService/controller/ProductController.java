@@ -23,7 +23,7 @@ public class ProductController {
         return new ResponseEntity<>(productId, HttpStatus.CREATED);
     }
 
-   @PreAuthorize("hasAuthority('Admin') || hasAuthority('SCOPE_internal') || hasAuthority('Customer')")
+//   @PreAuthorize("hasAuthority('Admin') || hasAuthority('SCOPE_internal') || hasAuthority('Customer')")
    @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable("id") long productId){
         ProductResponse productResponse = productService.getProductById(productId);

@@ -76,5 +76,5 @@ okta:
   oauth2:
     issuer: https://dev-18967452.okta.com/oauth2/default
     audience: api://default
-    scopes: openid, email, profile, offline_access
+    scopes: openid, email, profile, offline_access, internal
 

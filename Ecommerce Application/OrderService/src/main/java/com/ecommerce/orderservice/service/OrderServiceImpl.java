@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     public long placeOrder(OrderRequest orderRequest) {
         log.info("Placing Order Request : {}", orderRequest);
 
-        productService.reduceQuantity(orderRequest.getProductId(), orderRequest.getQuantity());
+//        productService.reduceQuantity(orderRequest.getProductId(), orderRequest.getQuantity());
 
         Order order = Order.builder()
                 .amount(orderRequest.getTotalAmount())

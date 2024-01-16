@@ -1,0 +1,8 @@
+services:
+  service-registry:
+    ports:
+      - 8761
+    environment:
+  cloud-gateway:
+    ports:
+      - 9090

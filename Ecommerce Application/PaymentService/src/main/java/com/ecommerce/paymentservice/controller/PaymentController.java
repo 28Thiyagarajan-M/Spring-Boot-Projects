@@ -15,7 +15,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping()
+    @PostMapping("/pay")
     public ResponseEntity<Long> doPayment(@RequestBody PaymentRequest paymentRequest) {
 
         return new ResponseEntity<>(paymentService.doPayment(paymentRequest), HttpStatus.OK);
@@ -32,6 +32,11 @@ public class PaymentController {
         return new ResponseEntity<>("Payment deleted successfully with id: "+paymentId, HttpStatus.OK) ;
     }
 
+
+    @GetMapping("/s")
+    public String get(){
+        return "PAYMENT";
+    }
 
 
 
